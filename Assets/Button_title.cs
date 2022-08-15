@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// タイトルシーンのボタン用
+/// </summary>
 public class Button_title : MonoBehaviour
 {
+    // クレジットタブ
     public GameObject credit;
+    // 遷移先のシーン
     private string txt = "10_exploration";
     
     /// <summary>
