@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8573492640275738362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8573492640275738361}
+  - component: {fileID: 8573492640275738359}
+  - component: {fileID: 8573492640275738360}
+  m_Layer: 0
+  m_Name: CharaManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8573492640275738361
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573492640275738362}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 600, y: 80, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8573492640275738359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573492640275738362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85ed2a2e3c5c3947af97a0f942c1ba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charaName: 
+  hp_max: 0
+  hp_now: 0
+  attack: 0
+  poison: 0
+  dmg_poison: 0
+  count_poison: 0
+  txt_poison: 
+  angry: 0
+  count_angry: 0
+  txt_angry: 
+--- !u!114 &8573492640275738360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8573492640275738362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d7ad20cd4c04341bef890dfebf6052, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charaName: 
+  hp_max: 0
+  hp_now: 0
+  attack: 0
+  poison: 0
+  dmg_poison: 0
+  count_poison: 0
+  txt_poison: 
+  guard: 0
+  txt_guard: 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Con_Battle : MonoBehaviour
 {
@@ -18,24 +19,44 @@ public class Con_Battle : MonoBehaviour
     public Text Text_e_at;
     public Text Text_e_state;
     #endregion
+    #region //! シーン遷移関係
+    string txt_sc1 = "00_title"; // ゲームオーバー
+    string txt_sc2 = "10_exploration"; // ゲーム継続
+    #endregion
 
-    #region //!フラグ管理
+    #region //! ボタン・フラグ管理
     [System.NonSerialized]public int command = 0;
     [System.NonSerialized]public bool flag_A = false;
+    public GameObject tab_button = null;
     #endregion
 
     private void Update()
     {
         WriteState();
+        // 生存確認
+        if(Con_Player2.player.hp_now <= 0)
+        {
+            Debug.Log("ゲームオーバー");
+            SceneManager.LoadScene(txt_sc1);
+        }
+        if(Con_Enemy2.enemy.hp_now <= 0)
+        {
+            Debug.Log("あなたの勝利です");
+            SceneManager.LoadScene(txt_sc2);
+        }
+
+        // 行動処理
         if(flag_A)
         {
+            tab_button.SetActive(false);
             BattleMain();
             flag_A = false;
+            tab_button.SetActive(true);
         }
     }
 
     /// <summary>
-    /// UI情報の更新処理
+    /// UI情報(キャラ)の更新処理
     /// </summary>
     private void WriteState()
     {
@@ -44,7 +65,7 @@ public class Con_Battle : MonoBehaviour
         Text_p_hp.text = "HP：" + Con_Player2.player.hp_now.ToString();
         Text_p_at.text = "攻撃力：" + Con_Player2.player.attack.ToString();
         // 状態異常ステータス：プレイヤー
-        Text_p_state.text = "状態異常" + Con_Player2.player.txt_poison;
+        Text_p_state.text = "状態異常" + Con_Player2.player.txt_guard + Con_Player2.player.txt_poison;
 
         // 通常ステータス：エネミー
         Text_e_name.text = Con_Enemy2.enemy.charaName;
@@ -68,12 +89,20 @@ private void BattleMain()
                 break;
             case 1:
                 Debug.Log("かいふく");
+                Con_Player2.player.hp_now += Con_Player2.player.Potion();
+                // 最大HPを超過しないための処理
+                if(Con_Player2.player.hp_now >= Con_Player2.player.hp_max)
+                {
+                    Con_Player2.player.hp_now = Con_Player2.player.hp_max;
+                }
                 break;
             case 2:
                 Debug.Log("どく");
+                Con_Enemy2.enemy.IsPoison();
                 break;
             case 3:
                 Debug.Log("ぼうぎょ");
+                Con_Player2.player.Guard();
                 break;
             default:
                 Debug.Log("えらー");
@@ -84,6 +113,26 @@ private void BattleMain()
         Con_Enemy2.enemy.Angry();
 
         // エネミーの行動処理
-        Con_Player2.player.hp_now -= Con_Enemy2.enemy.Attack();
+        if(Con_Player2.player.guard)
+        {
+            Debug.Log("攻撃を防いだ");
+        }
+        else
+        {
+            Con_Player2.player.hp_now -= Con_Enemy2.enemy.Attack();
+        }
+
+        // ターン終了後の処理
+        Con_Player2.player.guard = false;
+        Con_Player2.player.txt_guard = "";
+        // 毒状態の処理
+        if(Con_Player2.player.poison)
+        {
+            Con_Player2.player.hp_now -= 5;
+        }
+        if(Con_Enemy2.enemy.poison)
+        {
+            Con_Enemy2.enemy.hp_now -= 5;
+        }
     }
 }

@@ -5,6 +5,9 @@ using UnityEngine;
 public class Con_Player2 : Base_Chara
 {
     public static Con_Player2 player = null;
+    // 追加ステータス「ぼうぎょ」
+    public bool guard = false;
+    public string txt_guard;
 
     private void Awake()
     {
@@ -43,9 +46,9 @@ public class Con_Player2 : Base_Chara
     /// 「防御」の処理
     /// </summary>
     /// <returns></returns>
-    public bool Guard()
+    public void Guard()
     {
-        bool guard = true;
-        return guard;
+        guard = true;
+        txt_guard = "「防御態勢」(攻撃無効化)";
     }
 }
