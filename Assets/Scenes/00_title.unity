@@ -407,7 +407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b637547794824a24abe6cb255e8cae57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tab_close: {fileID: 589013124}
+  credit: {fileID: 589013124}
 --- !u!1 &479551472
 GameObject:
   m_ObjectHideFlags: 0
