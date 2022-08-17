@@ -4,11 +4,18 @@ using UnityEngine;
 
 /// <summary>
 /// キャラ情報(プレイヤー)を扱うクラス
-/// ターンバトル時のプレイヤーの処理はここ
+/// ターンバトル時のプレイヤーの処理ももここ
 /// </summary>
 public class Con_Player2 : Base_Chara
 {
     public static Con_Player2 player = null;
+
+    // 探索パートでの座標情報
+    [System.NonSerialized] public float pos_x;
+    [System.NonSerialized] public float pos_y;
+    [System.NonSerialized] public float pos_z;
+    [System.NonSerialized] public bool  exist = false;
+
     // 追加ステータス「ぼうぎょ」
     [System.NonSerialized] public bool guard = false;
     [System.NonSerialized] public string txt_guard;
@@ -53,6 +60,6 @@ public class Con_Player2 : Base_Chara
     public void Guard()
     {
         guard = true;
-        txt_guard = "「防御態勢」(攻撃無効化)";
+        txt_guard = "「防御態勢」(攻撃無効化)\n";
     }
 }

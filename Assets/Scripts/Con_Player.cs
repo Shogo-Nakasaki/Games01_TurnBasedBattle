@@ -34,6 +34,14 @@ public class Con_Player : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        // プレイヤーの座標情報が保存されていたら反映する
+        if (Con_Player2.player.exist)
+        {
+            this.transform.position = new Vector3(Con_Player2.player.pos_x,
+                                                  Con_Player2.player.pos_y,
+                                                  Con_Player2.player.pos_z);
+            Con_Player2.player.exist = false;
+        }
     }
 
     private void Update()
@@ -55,6 +63,13 @@ public class Con_Player : MonoBehaviour
         }
         rb.AddForce(speed_x, speed_y, speed_z);
         Move_Camera();
+        // プレイヤーの座標情報の保存をする
+        if (Con_Player2.player.exist)
+        {
+            Con_Player2.player.pos_x = vec_player.x;
+            Con_Player2.player.pos_y = vec_player.y;
+            Con_Player2.player.pos_z = vec_player.z;
+        }
     }
 
     /// <summary>
@@ -62,15 +77,10 @@ public class Con_Player : MonoBehaviour
     /// </summary>
     void Move_Camera()
     {
-        // プレイヤーの現在座標
-        float x_p = vec_player.x;
-        float y_p = vec_player.y;
-        float z_p = vec_player.z;
-        
         // カメラの座標更新
-        mainCamera.transform.position = new Vector3(x_p + 0.0f,
-                                                    y_p + 2.2f,
-                                                    z_p - 5.0f);
+        mainCamera.transform.position = new Vector3(vec_player.x + 0.0f,
+                                                    vec_player.y + 2.2f,
+                                                    vec_player.z - 5.0f);
         
     }
 
@@ -102,7 +112,7 @@ public class Con_Player : MonoBehaviour
         {
             y = 0;
         }
-
+        
         return y;
     }
 

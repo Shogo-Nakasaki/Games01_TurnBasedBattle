@@ -64,7 +64,7 @@ public class Con_Enemy2 : Base_Chara
             if (enemy.hp_now <= enemy.hp_max / 2)
             {
                 angry = true;
-                txt_angry = "「怒り状態」(攻撃力2倍)";
+                txt_angry = "「怒り状態」(攻撃力2倍)\n";
                 count_angry = 0;
             }
             else

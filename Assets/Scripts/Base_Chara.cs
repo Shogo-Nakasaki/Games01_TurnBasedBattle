@@ -41,7 +41,7 @@ public class Base_Chara : MonoBehaviour
         if(rnd >= 1)
         {
             poison = true;
-            txt_poison = "「どく状態」(継続ダメージを受ける)";
+            txt_poison = "「どく状態」(継続ダメージを受ける)\n";
             count_poison = 0;
         }
         

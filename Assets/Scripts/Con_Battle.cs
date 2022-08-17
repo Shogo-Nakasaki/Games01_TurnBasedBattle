@@ -95,14 +95,14 @@ public class Con_Battle : MonoBehaviour
         Text_p_hp.text = "HP：" + Con_Player2.player.hp_now.ToString();
         Text_p_at.text = "攻撃力：" + Con_Player2.player.attack.ToString();
         // 状態異常ステータス：プレイヤー
-        Text_p_state.text = "状態異常\n " + Con_Player2.player.txt_guard + "\n " + Con_Player2.player.txt_poison;
+        Text_p_state.text = "状態異常\n " + Con_Player2.player.txt_guard + Con_Player2.player.txt_poison;
 
         // 通常ステータス：エネミー
         Text_e_name.text = name_enemy;
         Text_e_hp.text = "HP：" + Con_Enemy2.enemy.hp_now.ToString();
         Text_e_at.text = "攻撃力：" + Con_Enemy2.enemy.attack.ToString();
         // 状態異常ステータス：エネミー
-        Text_e_state.text = "状態異常\n " + Con_Enemy2.enemy.txt_angry + "\n " + Con_Enemy2.enemy.txt_poison;
+        Text_e_state.text = "状態異常\n " + Con_Enemy2.enemy.txt_angry + Con_Enemy2.enemy.txt_poison;
     }
 
     /// <summary>

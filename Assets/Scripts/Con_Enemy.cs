@@ -29,6 +29,8 @@ public class Con_Enemy : MonoBehaviour
         if(isPlayer2)
         {
             Debug.Log("敵「攻撃を開始」");
+            // プレイヤーの座標情報の保存をする
+            Con_Player2.player.exist = true;
             SceneManager.LoadScene(scene_battle);
         }
     }
