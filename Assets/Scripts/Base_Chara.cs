@@ -24,7 +24,6 @@ public class Base_Chara : MonoBehaviour
     /// <summary>
     /// 「通常攻撃」の処理
     /// </summary>
-    /// <returns></returns>
     public virtual int Attack()
     {
         return attack;
@@ -39,33 +38,13 @@ public class Base_Chara : MonoBehaviour
         
         // 2/10の確率で毒状態になる。
         // if(rnd <= 1 && !poison) //連続で毒状態にならないようにする
-        if(rnd <= 1)
+        if(rnd >= 1)
         {
             poison = true;
             txt_poison = "「どく状態」(継続ダメージを受ける)";
             count_poison = 0;
         }
-
-        int dmg4poison = 0; // 毒攻撃を受けた際のダメージ量を入力する。毒状態でないなら0。
-        // 5ターン経過で毒状態から回復
-        if (count_poison > 5)
-        {
-            poison = false;
-            txt_poison = "";
-        }
         
         return poison;
-        /* あとで考える
-        // 毒のダメージ処理
-        if (poison)
-        {
-            dmg4poison = dmg_poison;
-            count_poison++;
-        }
-        else
-        {
-            dmg4poison = 0;
-        }
-        */
     }
 }

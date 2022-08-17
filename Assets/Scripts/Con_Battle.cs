@@ -20,8 +20,13 @@ public class Con_Battle : MonoBehaviour
     public Text Text_e_hp;
     public Text Text_e_at;
     public Text Text_e_state;
+    // 名前など
+    private string name_player;
+    private string name_enemy;
+    private bool flag_angry;
     #endregion
-    #region //! 各行動内容の情報関係
+
+    #region //! 各行動内容の表記関係
     [Header("UIの設定：行動内容")]
     public Text Text_show;
 
@@ -29,18 +34,27 @@ public class Con_Battle : MonoBehaviour
     private string format_battle1 = "{0}は{1}をした";
     /// <summary> {0}は{1}のダメージ </summary>
     private string format_battle2 = "{0}は{1}のダメージ";
-    /// <summary> {0}は{1}だ </summary>
-    private string format_status  = "{0}は{1}だ";
+    /// <summary> {0}は{1}になった </summary>
+    private string format_ailment1 = "{0}は{1}になった";
+    /// <summary> {0}は{1}のままだ </summary>
+    private string format_ailment2 = "{0}は{1}のままだ";
+    /// <summary> {0}は{1}から回復した </summary>
+    private string format_ailment3 = "{0}は{1}から回復した";
     /// <summary> しかし、{0}は耐えた </summary>
-    private string format_guard   = "しかし、{0}は耐えた";
+    private string format_guard   = "{0}は攻撃をしのいだ";
     #endregion
+
     #region //! シーン遷移関係
     string txt_sc1 = "00_title"; // ゲームオーバー
     string txt_sc2 = "10_exploration"; // ゲーム継続
     #endregion
+
     #region //! ボタン・フラグ管理
     [System.NonSerialized]public int command = 0;
+    /// <summary>ボタンが押されたかのチェック用</summary>
     [System.NonSerialized]public bool flag_A = false;
+    /// <summary>各フェーズが終了したかのチェック用</summary>
+    [System.NonSerialized]public bool flag_B = true;
     public GameObject tab_button = null;
     
     // 勝利判定
@@ -49,6 +63,13 @@ public class Con_Battle : MonoBehaviour
     // 現在のターン
     private int fase_now = 0;
     #endregion
+
+    private void Start()
+    {
+        // 変数に名前を登録
+        name_player = Con_Player2.player.charaName;
+        name_enemy  = Con_Enemy2.enemy.charaName;
+    }
 
     private void Update()
     {
@@ -59,9 +80,9 @@ public class Con_Battle : MonoBehaviour
         if(flag_A)
         {
             StartCoroutine(BattleMain());
-            flag_A = false;
         }
-
+        // Debug.Log("現在のフェーズは：" + fase_now);
+        // Debug.Log("flag_A：" + flag_A);
     }
 
     /// <summary>
@@ -70,18 +91,18 @@ public class Con_Battle : MonoBehaviour
     private void WriteState()
     {
         // 通常ステータス：プレイヤー
-        Text_p_name.text = Con_Player2.player.charaName;
+        Text_p_name.text = name_player;
         Text_p_hp.text = "HP：" + Con_Player2.player.hp_now.ToString();
         Text_p_at.text = "攻撃力：" + Con_Player2.player.attack.ToString();
         // 状態異常ステータス：プレイヤー
-        Text_p_state.text = "状態異常" + Con_Player2.player.txt_guard + Con_Player2.player.txt_poison;
+        Text_p_state.text = "状態異常\n " + Con_Player2.player.txt_guard + "\n " + Con_Player2.player.txt_poison;
 
         // 通常ステータス：エネミー
-        Text_e_name.text = Con_Enemy2.enemy.charaName;
+        Text_e_name.text = name_enemy;
         Text_e_hp.text = "HP：" + Con_Enemy2.enemy.hp_now.ToString();
         Text_e_at.text = "攻撃力：" + Con_Enemy2.enemy.attack.ToString();
         // 状態異常ステータス：エネミー
-        Text_e_state.text = "状態異常" + Con_Enemy2.enemy.txt_poison + Con_Enemy2.enemy.txt_angry;
+        Text_e_state.text = "状態異常\n " + Con_Enemy2.enemy.txt_angry + "\n " + Con_Enemy2.enemy.txt_poison;
     }
 
     /// <summary>
@@ -91,54 +112,68 @@ public class Con_Battle : MonoBehaviour
     {
         Text_show.text = txt;
     }
-
-
+    /// <summary>
+    /// テキスト表記：「名前」が「○○」をした
+    /// </summary>
+    /// <param name="chara1">行動者</param>
+    /// <param name="charaDo">行動内容</param>
     private void Write_txt(string chara1,string charaDo)
     {
         Text_show.text = string.Format(format_battle1, chara1, charaDo);
     }
-    /// <summary>
-    /// 各ターンの行動状態の表記：基本
-    /// </summary>
-    /// <param name="chara1">攻撃側</param>
-    /// <param name="chara2">被攻撃側</param>
-    /// <param name="charaDo">攻撃内容</param>
-    /// <param name="dmg">ダメージ量</param>
-    private void Write_txt(string chara1,string chara2,string charaDo,int dmg)
-    {
-        Write_txt(chara1,charaDo);
-        
-        // プレイヤーが防御状かつ被攻撃側のとき
-        if(Con_Player2.player.guard == true && chara2 == Con_Player2.player.name)
-        {
-            Text_show.text = string.Format(format_guard, chara2);
-        }
-        else
-        {
-            Write_txt(chara2, dmg);
-        }
-    }
-    /*
-    /// <summary>
-    /// 各ターンの行動内容の表記：状態異常
-    /// </summary>
-    /// <param name="chara">キャラ名</param>
-    /// <param name="charaStatus">状態異常内容</param>
-    private void Write_txt(string chara, string charaStatus)
-    {
-        Text_show.text = string.Format(format_status, chara, charaStatus);
-    }
-    */
 
     /// <summary>
-    /// ダメージ処理時の表記
+    /// ダメージ処理時の表記：「名前」は「○○」のダメージ
     /// </summary>
     /// <param name="chara">キャラ名</param>
     /// <param name="dmg">ダメージ量</param>
     private void Write_txt(string chara, int dmg)
     {
-        Text_show.text = string.Format(format_battle2, chara, dmg);
+        if (Con_Player2.player.guard == true && fase_now == 2)
+        {
+            // エネミーフェイズ中かつプレイヤーがガード時
+            Debug.Log("防御された");
+            Text_show.text = string.Format(format_guard, chara);
+        }
+        else
+        {
+            Debug.Log("防御されなかった");
+            Text_show.text = string.Format(format_battle2, chara, dmg);
+        }
     }
+
+    /// <summary>
+    /// 状態異常時の表記：「名前」は「○○」になった
+    /// </summary>
+    /// <param name="chara">キャラ名</param>
+    /// <param name="status">状態異常名</param>
+    private void Write_ailment(string chara, string status)
+    {
+        Text_show.text = string.Format(format_ailment1, chara, status);
+    }
+
+    /// <summary>
+    /// 状態異常時の表記：(継続なら)「名前」は「○○」のままだ
+    /// </summary>
+    /// <param name="chara">キャラ名</param>
+    /// <param name="status">状態異常名</param>
+    /// <param name="cont">継続状態か</param>
+    private void Write_ailment(string chara, string status, bool cont)
+    {
+        if(cont)
+        {
+            Text_show.text = string.Format(format_ailment2, chara, status);
+        }
+        else if(!cont)
+        {
+            Text_show.text = string.Format(format_ailment3, chara, status);
+        }
+        else
+        {
+            Write_ailment(chara, status);
+        }
+    }
+
     /// <summary>
     /// ゲーム終了時の表記.
     /// 「chara1は力尽きた。chara2の勝利です。」
@@ -150,53 +185,28 @@ public class Con_Battle : MonoBehaviour
         Text_show.text = chara1 + "は力尽きた\n" + chara2 + "の勝利です。";
     }
 
+
+    /*
     /// <summary>
-    ///  各ターン終了フェイズの処理
+    /// 各ターンの行動内容の表記：状態異常
     /// </summary>
-    private void Turn_End()
+    /// <param name="chara">キャラ名</param>
+    /// <param name="charaStatus">状態異常内容</param>
+    private void Write_txt(string chara, string charaStatus)
     {
-        // 毒のダメージ処理
-        if (Con_Player2.player.poison)
-        {
-            Write_txt(Con_Player2.player.charaName, "毒状態");
-            Write_txt(Con_Player2.player.charaName, 5);
-            Con_Player2.player.hp_now -= 5;
-        }
-        if (Con_Enemy2.enemy.poison)
-        {
-            Write_txt(Con_Enemy2.enemy.charaName, "毒状態");
-            Write_txt(Con_Enemy2.enemy.charaName, 5);
-            Con_Enemy2.enemy.hp_now -= 5;
-        }
-
-        // 生存確認
-        if (Con_Player2.player.hp_now <= 0)
-        {
-            // Debug.Log("ゲームオーバー");
-            win = false;
-            Write_End(Con_Player2.player.charaName,Con_Enemy2.enemy.charaName);
-            Invoke(nameof(Return), 3.0f);
-        }
-
-        if (Con_Enemy2.enemy.hp_now <= 0)
-        {
-            // Debug.Log("あなたの勝利です");
-            win = true;
-            Write_End(Con_Enemy2.enemy.charaName, Con_Player2.player.charaName);
-            Invoke(nameof(Return), 3.0f);
-        }
-        Debug.Log("エンドフェーズ");
-        tab_button.SetActive(true);
+        Text_show.text = string.Format(format_status, chara, charaStatus);
     }
+
+    */
 
     /// <summary>
     /// ゲーム終了後の遷移
     /// </summary>
-    /// <param name="win">勝利したかどうか</param>
     private void Return()
     {
         if (win)
         {
+            // 勝った時
             // 元のシーンに戻る
             SceneManager.LoadScene(txt_sc2);
         }
@@ -213,18 +223,26 @@ public class Con_Battle : MonoBehaviour
     IEnumerator BattleMain()
     {
         tab_button.SetActive(false);
-
-        StartCoroutine(Turn_Start());
-        yield return new WaitForSeconds(1.0f);
-        
-        StartCoroutine(Turn_Main_P());
-        yield return new WaitForSeconds(1.0f);
-
-        StartCoroutine(Turn_Main_E());
-        yield return new WaitForSeconds(1.0f);
-        
-        Turn_End();
-        Text_show.text = "どうする？";
+        if(fase_now == 0 && flag_B)
+        {
+            StartCoroutine(Turn_Start());
+            
+        }
+        if(fase_now == 1 && flag_B)
+        {
+            StartCoroutine(Turn_Main_P());
+            yield return new WaitForSeconds(1.0f);
+        }
+        if(fase_now == 2 && flag_B)
+        {
+            StartCoroutine(Turn_Main_E());
+            
+        }
+        if(fase_now == 3 && flag_B)
+        {
+            StartCoroutine(Turn_End());
+            yield return new WaitForSeconds(1.0f);
+        }
 
         yield return null;
     }
@@ -234,7 +252,12 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator Turn_Start()
     {
-        Debug.Log("スタートフェーズ");
+        flag_B = false;
+        // Debug.Log("スタートフェーズ開始");
+
+        fase_now = 1;
+        flag_B = true;
+        // Debug.Log("スタートフェーズ終了");
 
         yield return null;
     }
@@ -244,7 +267,8 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator Turn_Main_P()
     {
-        Debug.Log("プレイヤーフェーズ");
+        flag_B = false;
+        Debug.Log("プレイヤーフェーズ開始");
         // ガード状態の解除
         Con_Player2.player.guard = false;
         Con_Player2.player.txt_guard = "";
@@ -252,45 +276,60 @@ public class Con_Battle : MonoBehaviour
         // 入力内容に応じたプレイヤーの行動処理
         switch (command)
         {
-            case 0: // 通常攻撃
+            case 0:
                 Debug.Log("こうげき");
-                Write_txt(Con_Player2.player.charaName, "「こうげき」");
+                Write_txt(name_player, "「こうげき」");
+                yield return new WaitForSeconds(1.0f);
+
+                // Debug.Log("こうげき2");
+                Write_txt(name_enemy, Con_Player2.player.Attack());
                 Con_Enemy2.enemy.hp_now -= Con_Player2.player.Attack();
-                Write_txt(Con_Enemy2.enemy.charaName,Con_Player2.player.Attack());
+                yield return new WaitForSeconds(1.0f);
+
                 break;
             case 1: // 回復行動
                 Debug.Log("かいふく");
-                Write_txt(Con_Player2.player.charaName + "はポーションを飲み回復した");
+                Write_txt(name_player + "はポーションを飲み回復した");
                 Con_Player2.player.hp_now += Con_Player2.player.Potion();
                 // 最大HPを超過しないための処理
                 if (Con_Player2.player.hp_now >= Con_Player2.player.hp_max)
                 {
                     Con_Player2.player.hp_now = Con_Player2.player.hp_max;
                 }
+                yield return new WaitForSeconds(1.0f);
+
                 break;
             case 2: // どく攻撃
-                Debug.Log("どく");
-                Write_txt(Con_Player2.player.charaName, "「どく攻撃」");
+                // Debug.Log("どく");
+                Write_txt(name_player, "「どく攻撃」");
                 Con_Enemy2.enemy.IsPoison();
-                // 毒状態になったかどうか
-                if(Con_Enemy2.enemy.poison)
+                yield return new WaitForSeconds(1.0f);
+
+                // 「どく」状態になったかどうか
+                if (Con_Enemy2.enemy.poison)
                 {
-                    Write_txt(Con_Enemy2.enemy.charaName, "「どく状態」");
+                    Write_ailment(name_enemy, "「どく状態」");
+                    yield return new WaitForSeconds(1.0f);
                 }
                 else
                 {
-                    Write_txt(Con_Enemy2.enemy.charaName + "には効果が無いようだ");
+                    Write_txt(name_enemy + "には効果が無いようだ");
+                    yield return new WaitForSeconds(1.0f);
                 }
                 break;
             case 3: // 防御行動
-                Debug.Log("ぼうぎょ");
-                Write_txt(Con_Player2.player.charaName, "「防御行動」");
+                // Debug.Log("ぼうぎょ");
+                Write_txt(name_player, "「防御行動」");
                 Con_Player2.player.Guard();
+                yield return new WaitForSeconds(1.0f);
+
                 break;
             default:
                 break;
         }
-
+        fase_now = 2;
+        flag_B = true;
+        Debug.Log("プレイヤーフェーズ終了");
         yield return null;
     }
 
@@ -299,20 +338,104 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator Turn_Main_E()
     {
-        Debug.Log("エネミーフェーズ");
-        // 怒り状態のチェック
-        Con_Enemy2.enemy.Angry();
-
-
+        flag_B = false;
+        // Debug.Log("エネミーフェーズ");
+        
         // エネミーの行動処理：通常攻撃
-        Write_txt(Con_Enemy2.enemy.charaName, Con_Player2.player.charaName, "「タックル」", Con_Enemy2.enemy.Attack());
-        if (Con_Player2.player.guard)
+        Write_txt(name_enemy,"「タックル」");
+        yield return new WaitForSeconds(1.0f);
+
+        // エネミーによるダメージ処理
+        Write_txt(name_player, Con_Enemy2.enemy.Attack());
+        if (!Con_Player2.player.guard)
         {
-            Debug.Log("攻撃を防いだ");
-        }
-        else
-        {
+            Debug.Log("エネミーの攻撃が成功");
             Con_Player2.player.hp_now -= Con_Enemy2.enemy.Attack();
+        }
+        yield return new WaitForSeconds(1.0f);
+
+        Con_Enemy2.enemy.count_angry++;
+        fase_now = 3;
+        flag_B = true;
+
+        yield return null;
+    }
+
+    /// <summary>
+    ///  各ターン終了フェイズの処理
+    /// </summary>
+    IEnumerator Turn_End()
+    {
+        flag_B = false;
+        // 怒り状態になるかのチェック
+        Con_Enemy2.enemy.Angry();
+        if (Con_Enemy2.enemy.angry && !flag_angry)
+        {
+            // 怒り始め
+            flag_angry = true;
+            Write_ailment(name_enemy, "怒り状態");
+            yield return new WaitForSeconds(1.0f);
+        }
+        else if(Con_Enemy2.enemy.angry && flag_angry)
+        {
+            // 怒り継続
+            Write_ailment(name_enemy, "怒り状態", true);
+            yield return new WaitForSeconds(1.0f);
+        }
+        else if(!Con_Enemy2.enemy.angry && flag_angry)
+        {
+            // 怒り終了
+            Write_ailment(name_enemy, "怒り状態", false);
+            flag_angry = false;
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        // 「どく」のダメージ処理
+        if (Con_Player2.player.poison)
+        {
+            Write_ailment(name_player, "どく状態", true);
+            yield return new WaitForSeconds(1.0f);
+
+            Write_txt(name_player, 5);
+            Con_Player2.player.hp_now -= 5;
+            yield return new WaitForSeconds(1.0f);
+        }
+        if (Con_Enemy2.enemy.poison)
+        {
+            Write_ailment(name_enemy, "どく状態", true);
+            yield return new WaitForSeconds(1.0f);
+
+            Write_txt(name_enemy, 5);
+            Con_Enemy2.enemy.hp_now -= 5;
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        // Debug.Log("エンドフェーズ");
+        if(Con_Player2.player.hp_now >= 0 && Con_Enemy2.enemy.hp_now >= 0)
+        {
+            fase_now = 0;
+            flag_A = false;
+            tab_button.SetActive(true);
+            flag_B = true;
+            Text_show.text = "どうする？";
+            yield return new WaitForSeconds(1.0f);
+        }
+        // 生存確認
+        else if (Con_Player2.player.hp_now <= 0)
+        {
+            // Debug.Log("ゲームオーバー");
+            win = false;
+            Write_End(name_player, name_enemy);
+            yield return new WaitForSeconds(1.0f);
+            Invoke(nameof(Return), 3.0f);
+        }
+        else if (Con_Enemy2.enemy.hp_now <= 0)
+        {
+            // Debug.Log("あなたの勝利です");
+            win = true;
+            Write_End(name_enemy, name_player);
+            yield return new WaitForSeconds(1.0f);
+            Invoke(nameof(Return), 3.0f);
         }
 
         yield return null;

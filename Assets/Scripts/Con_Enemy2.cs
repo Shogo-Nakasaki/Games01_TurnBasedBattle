@@ -45,7 +45,6 @@ public class Con_Enemy2 : Base_Chara
         if(angry)
         {
             dmg = attack * 2;
-            count_angry++;
         }
         else
         {
