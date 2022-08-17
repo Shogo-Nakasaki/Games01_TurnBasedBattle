@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// キャラクター情報のベースとなるクラス
+/// 攻撃、どくはこちらで実装
+/// </summary>
 public class Base_Chara : MonoBehaviour
 {
     #region //! キャラ情報
@@ -11,10 +15,10 @@ public class Base_Chara : MonoBehaviour
     public int hp_now;
     public int attack;
     // 状態異常：毒
-    public bool poison;
-    public int dmg_poison;
-    public int count_poison;
-    public string txt_poison;
+    [System.NonSerialized] public bool poison;
+    [System.NonSerialized] public int dmg_poison;
+    [System.NonSerialized] public int count_poison;
+    [System.NonSerialized] public string txt_poison;
     #endregion
 
     /// <summary>

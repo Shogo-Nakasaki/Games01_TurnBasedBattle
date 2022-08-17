@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// プレイヤーの移動スクリプト
+/// 探索パート時のスクリプト
+/// プレイヤーの移動関連
 /// </summary>
 public class Con_Player : MonoBehaviour
 {

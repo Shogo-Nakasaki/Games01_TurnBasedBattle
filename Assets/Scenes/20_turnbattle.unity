@@ -1990,6 +1990,7 @@ MonoBehaviour:
   Text_e_hp: {fileID: 1226744129}
   Text_e_at: {fileID: 1982158692}
   Text_e_state: {fileID: 302708030}
+  Text_show: {fileID: 510765107}
   tab_button: {fileID: 1512675350}
 --- !u!1 &1773257369
 GameObject:

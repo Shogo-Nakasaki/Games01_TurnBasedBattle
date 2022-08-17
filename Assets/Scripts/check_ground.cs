@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// プレイヤー用
+/// 探索パート、プレイヤー用
 /// 地面と接地しているかのチェック用
 /// </summary>
 public class check_ground : MonoBehaviour

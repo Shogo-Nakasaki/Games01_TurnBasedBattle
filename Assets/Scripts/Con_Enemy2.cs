@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// キャラ情報(エネミー)を扱うクラス
+/// ターンバトル時のエネミーの処理はここ
+/// </summary>
 public class Con_Enemy2 : Base_Chara
 {
     public static Con_Enemy2 enemy = null;
     // 追加ステータス「いかり」
-    public bool angry = false;
-    public int count_angry;
-    public string txt_angry;
+    [System.NonSerialized] public bool angry = false;
+    [System.NonSerialized] public int count_angry;
+    [System.NonSerialized] public string txt_angry;
 
     private void Awake()
     {

@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// キャラ情報(プレイヤー)を扱うクラス
+/// ターンバトル時のプレイヤーの処理はここ
+/// </summary>
 public class Con_Player2 : Base_Chara
 {
     public static Con_Player2 player = null;
     // 追加ステータス「ぼうぎょ」
-    public bool guard = false;
-    public string txt_guard;
+    [System.NonSerialized] public bool guard = false;
+    [System.NonSerialized] public string txt_guard;
 
     private void Awake()
     {

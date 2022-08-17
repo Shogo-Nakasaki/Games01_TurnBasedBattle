@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// ターンバトル時のボタン用
+/// </summary>
 public class Button_battle : MonoBehaviour
 {
     public Con_Battle main;
