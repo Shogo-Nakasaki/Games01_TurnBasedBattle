@@ -19,6 +19,12 @@ public class Base_Chara : MonoBehaviour
     [System.NonSerialized] public int dmg_poison;
     [System.NonSerialized] public int count_poison;
     [System.NonSerialized] public string txt_poison;
+
+    // 探索パートでの座標情報
+    [System.NonSerialized] public float pos_x;
+    [System.NonSerialized] public float pos_y;
+    [System.NonSerialized] public float pos_z;
+    [System.NonSerialized] public bool exist = false;
     #endregion
 
     /// <summary>

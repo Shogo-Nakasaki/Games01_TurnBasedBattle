@@ -10,12 +10,6 @@ public class Con_Player2 : Base_Chara
 {
     public static Con_Player2 player = null;
 
-    // 探索パートでの座標情報
-    [System.NonSerialized] public float pos_x;
-    [System.NonSerialized] public float pos_y;
-    [System.NonSerialized] public float pos_z;
-    [System.NonSerialized] public bool  exist = false;
-
     // 追加ステータス「ぼうぎょ」
     [System.NonSerialized] public bool guard = false;
     [System.NonSerialized] public string txt_guard;
@@ -37,7 +31,7 @@ public class Con_Player2 : Base_Chara
         player.charaName = "あかぎ";
         player.hp_max = 100;
         player.hp_now = player.hp_max;
-        player.attack = 10;
+        player.attack = 100;
     }
 
     /// <summary>

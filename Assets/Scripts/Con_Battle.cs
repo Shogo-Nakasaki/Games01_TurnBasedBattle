@@ -185,20 +185,6 @@ public class Con_Battle : MonoBehaviour
         Text_show.text = chara1 + "は力尽きた\n" + chara2 + "の勝利です。";
     }
 
-
-    /*
-    /// <summary>
-    /// 各ターンの行動内容の表記：状態異常
-    /// </summary>
-    /// <param name="chara">キャラ名</param>
-    /// <param name="charaStatus">状態異常内容</param>
-    private void Write_txt(string chara, string charaStatus)
-    {
-        Text_show.text = string.Format(format_status, chara, charaStatus);
-    }
-
-    */
-
     /// <summary>
     /// ゲーム終了後の遷移
     /// </summary>
@@ -206,14 +192,19 @@ public class Con_Battle : MonoBehaviour
     {
         if (win)
         {
-            // 勝った時
-            // 元のシーンに戻る
-            SceneManager.LoadScene(txt_sc2);
+            // 勝利時
+            Con_Enemy2.enemy.exist = false; // 対戦した敵キャラの情報を削除
+
+            SceneManager.LoadScene(txt_sc2); // 元のシーンに戻る
         }
         else
         {
-            // タイトルシーンに戻る
-            SceneManager.LoadScene(txt_sc1);
+            // 敗北時
+            Con_Player2.player.exist = false; // プレイヤーの位置情報を削除
+
+            Con_Enemy2.enemy.exist = true;   // 敵キャラが同場所に再度スポーンする
+            // SceneManager.LoadScene(txt_sc1); // タイトルシーンへ戻る
+            SceneManager.LoadScene(txt_sc2); // 元のシーンに戻る
         }
     }
 
@@ -411,7 +402,8 @@ public class Con_Battle : MonoBehaviour
         }
 
         // Debug.Log("エンドフェーズ");
-        if(Con_Player2.player.hp_now >= 0 && Con_Enemy2.enemy.hp_now >= 0)
+        // 生存確認
+        if(Con_Player2.player.hp_now > 0 && Con_Enemy2.enemy.hp_now > 0)
         {
             fase_now = 0;
             flag_A = false;
@@ -420,22 +412,24 @@ public class Con_Battle : MonoBehaviour
             Text_show.text = "どうする？";
             yield return new WaitForSeconds(1.0f);
         }
-        // 生存確認
-        else if (Con_Player2.player.hp_now <= 0)
+        else
         {
-            // Debug.Log("ゲームオーバー");
-            win = false;
-            Write_End(name_player, name_enemy);
-            yield return new WaitForSeconds(1.0f);
-            Invoke(nameof(Return), 3.0f);
-        }
-        else if (Con_Enemy2.enemy.hp_now <= 0)
-        {
-            // Debug.Log("あなたの勝利です");
-            win = true;
-            Write_End(name_enemy, name_player);
-            yield return new WaitForSeconds(1.0f);
-            Invoke(nameof(Return), 3.0f);
+            if (Con_Player2.player.hp_now <= 0)
+            {
+                // Debug.Log("ゲームオーバー");
+                win = false;
+                Write_End(name_player, name_enemy);
+                yield return new WaitForSeconds(1.0f);
+                Invoke(nameof(Return), 3.0f);
+            }
+            if (Con_Enemy2.enemy.hp_now <= 0)
+            {
+                // Debug.Log("あなたの勝利です");
+                win = true;
+                Write_End(name_enemy, name_player);
+                yield return new WaitForSeconds(1.0f);
+                Invoke(nameof(Return), 3.0f);
+            }
         }
 
         yield return null;

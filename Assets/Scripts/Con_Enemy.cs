@@ -14,9 +14,33 @@ public class Con_Enemy : MonoBehaviour
 
     private string scene_battle = "20_turnbattle";
 
+    private Vector3 vec_enemy;
+
+    private void Start()
+    {
+        // 2回目以降で起動
+        if(Con_Enemy2.enemy.exist2)
+        {
+            // enemyのexistがtrue:座標更新、enemyのexistがfalse：破壊
+            if (Con_Enemy2.enemy.exist)
+            {
+                this.transform.position = new Vector3(Con_Enemy2.enemy.pos_x,
+                                                      Con_Enemy2.enemy.pos_y,
+                                                      Con_Enemy2.enemy.pos_z);
+                Con_Enemy2.enemy.exist = false;
+            }
+            else if (!Con_Enemy2.enemy.exist)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        vec_enemy = this.transform.position;
+
         isPlayer1 = c_player1.IsPlyaer();
         isPlayer2 = c_player2.IsPlyaer();
         // 索敵範囲内にプレイヤー：プレイヤーへ近づく
@@ -28,9 +52,14 @@ public class Con_Enemy : MonoBehaviour
         // 接敵範囲内にプレイヤー：バトルシーンへ移行
         if(isPlayer2)
         {
-            Debug.Log("敵「攻撃を開始」");
-            // プレイヤーの座標情報の保存をする
+            // Debug.Log("敵「攻撃を開始」");
+            // 各キャラクターの座標情報の保存をする
             Con_Player2.player.exist = true;
+            Con_Enemy2.enemy.exist2 = true;
+            Con_Enemy2.enemy.pos_x = vec_enemy.x;
+            Con_Enemy2.enemy.pos_y = vec_enemy.y;
+            Con_Enemy2.enemy.pos_z = vec_enemy.z;
+
             SceneManager.LoadScene(scene_battle);
         }
     }

@@ -14,6 +14,9 @@ public class Con_Enemy2 : Base_Chara
     [System.NonSerialized] public int count_angry;
     [System.NonSerialized] public string txt_angry;
 
+
+    [System.NonSerialized] public bool exist2 = false;
+
     private void Awake()
     {
         // インスタンス化関係
@@ -29,7 +32,7 @@ public class Con_Enemy2 : Base_Chara
 
         // プレイヤー情報更新
         enemy.charaName = "もんすたー";
-        enemy.hp_max = 300;
+        enemy.hp_max = 200;
         enemy.hp_now = enemy.hp_max;
         enemy.attack = 30;
     }
