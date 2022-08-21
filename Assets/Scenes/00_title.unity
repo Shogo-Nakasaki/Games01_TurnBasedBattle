@@ -194,7 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Virtual Character Battle
+  m_Text: "(\u8A66\u4F5C)\u30BF\u30FC\u30F3\u5236\u30D0\u30C8\u30EB\u30FB\u63A2\u7D22\u30B2\u30FC\u30E0"
 --- !u!222 &121542232
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -354,7 +354,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ver 0.1
+  m_Text: ver 1.0
 --- !u!222 &332050328
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -487,11 +487,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "ver0.1\r\n\u30B2\u30FC\u30E0\u30BF\u30A4\u30C8\u30EB\r\n  Virtual Character
-    Battle\r\n\r\n\u4F01\u753B\u30FB\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\r\n 
+  m_Text: "ver1.0\n\u30B2\u30FC\u30E0\u30BF\u30A4\u30C8\u30EB\r\n  (\u8A66\u4F5C)\u30BF\u30FC\u30F3\u5236\u30D0\u30C8\u30EB\u30FB\u63A2\u7D22\u30B2\u30FC\u30E0\n\r\n\u4F01\u753B\u30FB\u30D7\u30ED\u30B0\u30E9\u30DF\u30F3\u30B0\r\n 
     \u3057\u3087\u3046\u3054\r\n\r\n\u4F7F\u7528\u3057\u305F\u3082\u306E\r\n  Unity\r\n\r\n\u304A\u501F\u308A\u3057\u305F\u3082\u306E\r\n 
     \u30D5\u30A9\u30F3\u30C8\r\n      MODI\u5DE5\u5834\uFF0F\u5012\u795E\u795E\u5012
-    \u69D8\u3088\u308A\u300C\u6728\u6F0F\u308C\u65E5\u30B4\u30B7\u30C3\u30AF ver.1.02\u300D\r\n\r\n\u5236\u4F5C\u958B\u59CB\u65E5\uFF1A2022\u5E748\u670816\u65E5"
+    \u69D8\u3088\u308A\u300C\u6728\u6F0F\u308C\u65E5\u30B4\u30B7\u30C3\u30AF ver.1.02\u300D\r\n\r\n\u5236\u4F5C\u958B\u59CB\u65E5\uFF1A2022\u5E748\u670816\u65E5\n\u6700\u7D42\u66F4\u65B0\u65E5\uFF1A2022\u5E748\u670822\u65E5"
 --- !u!1 &538846703
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/20_turnbattle.unity
     guid: e55eea7342391c34499318cf3097192c
+  - enabled: 1
+    path: Assets/Scenes/01_end.unity
+    guid: 8b26b4eadb8da7c4bacbe41b3f922b81
   m_configObjects: {}
