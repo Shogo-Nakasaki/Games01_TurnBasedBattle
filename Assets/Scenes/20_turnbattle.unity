@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 302708031}
   - component: {fileID: 302708030}
   m_Layer: 5
-  m_Name: P_state
+  m_Name: E_state
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1348,7 +1348,7 @@ GameObject:
   - component: {fileID: 1226744130}
   - component: {fileID: 1226744129}
   m_Layer: 5
-  m_Name: P_hp
+  m_Name: E_hp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc09821ff8edd5a4eac0742c0e2968cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  main: {fileID: 1643808036}
+  main: {fileID: 1643808037}
 --- !u!1 &1471877687
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,7 +1473,7 @@ GameObject:
   - component: {fileID: 1471877690}
   - component: {fileID: 1471877689}
   m_Layer: 5
-  m_Name: P_name
+  m_Name: E_name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1948,6 +1948,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1643808035}
   - component: {fileID: 1643808036}
+  - component: {fileID: 1643808037}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1977,9 +1978,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1643808034}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8bca90733bf88f4fbb8b525cecbe32a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Text_p_name: {fileID: 1061532653}
+  Text_p_hp: {fileID: 1177814924}
+  Text_p_at: {fileID: 1521571671}
+  Text_p_state: {fileID: 6854124}
+  Text_e_name: {fileID: 1471877689}
+  Text_e_hp: {fileID: 1226744129}
+  Text_e_at: {fileID: 1982158692}
+  Text_e_state: {fileID: 302708030}
+  Text_show: {fileID: 510765107}
+  tab_button: {fileID: 1512675350}
+--- !u!114 &1643808037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1643808034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01c14a0424ee69498e81c9ab219cee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Text_p_name: {fileID: 1061532653}
@@ -2205,7 +2228,7 @@ GameObject:
   - component: {fileID: 1982158693}
   - component: {fileID: 1982158692}
   m_Layer: 5
-  m_Name: P_attack
+  m_Name: E_attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

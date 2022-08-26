@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// ターンバトル時のメイン部分となるクラス
 /// </summary>
-public class Con_Battle : MonoBehaviour
+public class Con_Battle1 : MonoBehaviour
 {
     #region //! プレイヤー・エネミーの情報関係
     [Header("UIの設定：プレイヤー")]
@@ -45,7 +45,7 @@ public class Con_Battle : MonoBehaviour
     #endregion
 
     #region //! シーン遷移関係
-    string txt_sc1 = "00_title"; // ゲームオーバー
+    // string txt_sc1 = "00_title"; // ゲームオーバー
     string txt_sc2 = "10_exploration"; // ゲーム継続
     #endregion
 
@@ -54,7 +54,7 @@ public class Con_Battle : MonoBehaviour
     /// <summary>ボタンが押されたかのチェック用</summary>
     [System.NonSerialized]public bool flag_A = false;
     /// <summary>各フェーズが終了したかのチェック用</summary>
-    [System.NonSerialized]public bool flag_B = true;
+    [System.NonSerialized]public bool flag_B = false;
     public GameObject tab_button = null;
     
     // 勝利判定
@@ -70,21 +70,14 @@ public class Con_Battle : MonoBehaviour
         name_player = Con_Player2.player.charaName;
         name_enemy  = Con_Enemy2.enemy.charaName;
 
-
+        Debug.Log("開始");
+        StartCoroutine(BattleMain());
     }
 
     private void Update()
     {
         // UI更新
         WriteState();
-
-        // 行動処理
-        if(flag_A)
-        {
-            StartCoroutine(BattleMain());
-        }
-        // Debug.Log("現在のフェーズは：" + fase_now);
-        // Debug.Log("flag_A：" + flag_A);
     }
 
     /// <summary>
@@ -134,12 +127,12 @@ public class Con_Battle : MonoBehaviour
         if (Con_Player2.player.guard == true && fase_now == 2)
         {
             // エネミーフェイズ中かつプレイヤーがガード時
-            Debug.Log("防御された");
+            // Debug.Log("防御された");
             Text_show.text = string.Format(format_guard, chara);
         }
         else
         {
-            Debug.Log("防御されなかった");
+            // Debug.Log("防御されなかった");
             Text_show.text = string.Format(format_battle2, chara, dmg);
         }
     }
@@ -215,26 +208,35 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator BattleMain()
     {
-        tab_button.SetActive(false);
-        if(fase_now == 0 && flag_B)
+        // ボタンを押す入力待ち
+        while (!flag_A)
         {
-            StartCoroutine(Turn_Start());
-            
+            // Debug.Log("待機");
+            yield return new WaitForSeconds(0.5f);
         }
-        if(fase_now == 1 && flag_B)
+
+        // ボタンが押されると各ターン処理開始
+        while (flag_A)
         {
-            StartCoroutine(Turn_Main_P());
-            yield return new WaitForSeconds(1.0f);
-        }
-        if(fase_now == 2 && flag_B)
-        {
-            StartCoroutine(Turn_Main_E());
-            
-        }
-        if(fase_now == 3 && flag_B)
-        {
-            StartCoroutine(Turn_End());
-            yield return new WaitForSeconds(1.0f);
+            tab_button.SetActive(false);
+
+            if (fase_now == 0 && !flag_B)
+            {
+                StartCoroutine(Turn_Start());
+            }
+            else if (fase_now == 1 && !flag_B)
+            {
+                StartCoroutine(Turn_Main_P());
+            }
+            else if (fase_now == 2 && !flag_B)
+            {
+                StartCoroutine(Turn_Main_E());
+            }
+            else if (fase_now == 3 && !flag_B)
+            {
+                StartCoroutine(Turn_End());
+            }
+            yield return new WaitForSeconds(0.5f);
         }
 
         yield return null;
@@ -245,12 +247,12 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator Turn_Start()
     {
-        flag_B = false;
+        flag_B = true;
         // Debug.Log("スタートフェーズ開始");
 
-        fase_now = 1;
-        flag_B = true;
         // Debug.Log("スタートフェーズ終了");
+        fase_now = 1;
+        flag_B = false;
 
         yield return null;
     }
@@ -260,8 +262,8 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator Turn_Main_P()
     {
-        flag_B = false;
-        Debug.Log("プレイヤーフェーズ開始");
+        flag_B = true;
+        // Debug.Log("プレイヤーフェーズ開始");
         // ガード状態の解除
         Con_Player2.player.guard = false;
         Con_Player2.player.txt_guard = "";
@@ -320,9 +322,11 @@ public class Con_Battle : MonoBehaviour
             default:
                 break;
         }
-        fase_now = 2;
-        flag_B = true;
+
         Debug.Log("プレイヤーフェーズ終了");
+        fase_now = 2;
+        flag_B = false;
+
         yield return null;
     }
 
@@ -331,7 +335,7 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator Turn_Main_E()
     {
-        flag_B = false;
+        flag_B = true;
         // Debug.Log("エネミーフェーズ");
         
         // エネミーの行動処理：通常攻撃
@@ -349,7 +353,7 @@ public class Con_Battle : MonoBehaviour
 
         Con_Enemy2.enemy.count_angry++;
         fase_now = 3;
-        flag_B = true;
+        flag_B = false;
 
         yield return null;
     }
@@ -359,7 +363,7 @@ public class Con_Battle : MonoBehaviour
     /// </summary>
     IEnumerator Turn_End()
     {
-        flag_B = false;
+        flag_B = true;
         // 怒り状態になるかのチェック
         Con_Enemy2.enemy.Angry();
         if (Con_Enemy2.enemy.angry && !flag_angry)
@@ -410,9 +414,12 @@ public class Con_Battle : MonoBehaviour
             fase_now = 0;
             flag_A = false;
             tab_button.SetActive(true);
-            flag_B = true;
+            flag_B = false;
             Text_show.text = "どうする？";
             yield return new WaitForSeconds(1.0f);
+            
+            // 継続時に再度ゲームを回す
+            StartCoroutine(BattleMain());
         }
         else if (Con_Player2.player.hp_now <= 0)
         {

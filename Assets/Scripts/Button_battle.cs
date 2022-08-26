@@ -7,7 +7,8 @@ using UnityEngine;
 /// </summary>
 public class Button_battle : MonoBehaviour
 {
-    public Con_Battle main;
+    // public Con_Battle main;
+    public Con_Battle1 main;
 
     public void B_Attack()
     {
