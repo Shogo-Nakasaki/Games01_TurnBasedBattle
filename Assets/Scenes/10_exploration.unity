@@ -537,7 +537,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!114 &916069517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,7 +550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5767b2f0263584f45b4c7ede1b924d77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  move_Speed: 500
+  move_Speed: 10
   move_Jump: 300
   c_ground: {fileID: 1329043200816357804}
   mainCamera: {fileID: 987104278}

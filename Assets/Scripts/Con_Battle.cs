@@ -45,7 +45,7 @@ public class Con_Battle : MonoBehaviour
     #endregion
 
     #region //! シーン遷移関係
-    string txt_sc1 = "00_title"; // ゲームオーバー
+    // string txt_sc1 = "00_title"; // ゲームオーバー
     string txt_sc2 = "10_exploration"; // ゲーム継続
     #endregion
 
